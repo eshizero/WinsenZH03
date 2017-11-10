@@ -90,18 +90,13 @@ void WinsenZH03::readContinus()
 #endif
 			if (checkValueCon(buf, BYTESCOUNT))
 			{
-				this->PM1_0 = (measure[2] << 8) + measure[3];
-				this->PM2_5 = (measure[4] << 8) + measure[5];
-				this->PM10 = (measure[6] << 8) + measure[7];
+				this->PM1_0 = (buf[2] << 8) + buf[3];
+				this->PM2_5 = (buf[4] << 8) + buf[5];
+				this->PM10 = (buf[6] << 8) + buf[7];
 			}
 			
 
 		}
-
-
-
-
-
 	}
 }
 
