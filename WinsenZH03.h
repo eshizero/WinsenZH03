@@ -65,7 +65,7 @@ public:
 	float readPM10();
 	unsigned char buf[BYTESCOUNT];
 private:
-
+	int slewarespo();
 	int checkValueCon(unsigned char *thebuf, char leng);
 	int checkValueMan(unsigned char *thebuf);
 	Stream *_s;

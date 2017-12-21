@@ -240,36 +240,36 @@ float WinsenZH03::readPM10()
 }
 
 
-int WinsenZH03::sleep(){
+int WinsenZH03::sleep()
+{
 	
 		byte setSleep[] = { 0xFF, 0x01, 0xA7, 0x01, 0x00, 0x00, 0x00, 0x00, 0x57};//duerme
-		byte response[9] = { 0xFF, 0xA7, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x58 };
 		_s->write(setSleep, sizeof(setSleep));
-		delay(1500);
-		while (_s->available() > 0) {
+		return slewarespo();
+	}
+	
+int WinsenZH03::wake()
+{
+	
+		byte setWake[] = { 0xFF, 0x01, 0xA7, 0x00, 0x00, 0x00, 0x00, 0x00, 0x58};//despierta
+		_s->write(setWake, sizeof(setWake));
+		return slewarespo();
+	}
+	
+int WinsenZH03::slewarespo()
+{
+			byte response[9] = { 0xFF, 0xA7, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x58 };	
+				delay(1500);
+				while (_s->available() > 0) {
 			byte c = _s->read();//Clear 
-			//Serial.print(c);
 		}
 				if (c==response){
 			
 			return 1;
+		}else{
+			return 0;
 		}
+		
+		
 	}
-	
-int WinsenZH03::wake(){
-	
-		byte setWake[] = { 0xFF, 0x01, 0xA7, 0x00, 0x00, 0x00, 0x00, 0x00, 0x58};//despierta
-		byte response[9] = { 0xFF, 0xA7, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x58 };
-		_s->write(setWake, sizeof(setWake));
-			delay(1500);
-		while (_s->available() > 0) {
-			byte c = _s->read();//Clear 
-			//Serial.print(c);
-		}
-		if (c==response){
-			
-			return 1;
-		}
-	}
-	
 	
