@@ -58,7 +58,8 @@ public:
 	void setAs(bool active);
 	void readContinus();
 	int readOnce();
-	int readZH03b();
+	int sleep();
+	int wake();
 	float readPM1_0();
 	float readPM2_5();
 	float readPM10();

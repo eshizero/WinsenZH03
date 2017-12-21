@@ -136,13 +136,13 @@ int WinsenZH03::readOnce()
 			this->PM10 = (measure[6] << 8) + measure[7];
 			once_flag = 1;
 #ifdef DEBUGOTHERS
-			Serial.println("check ok");
+			Serial.println(F("check ok"));
 #endif
 		}
 		else
 		{
 #ifdef DEBUGOTHERS
-			Serial.println("check fails");
+			Serial.println(F("check fails"));
 #endif
 			once_flag = 0;
 		}
@@ -163,29 +163,6 @@ int WinsenZH03::readOnce()
 	return once_flag;
 	}
 
-int WinsenZH03::readZH03b()
-{
-	bool readflag = 0;
-	if (_s->find(0x42)) {
-		_s->readBytes(buf, BYTESCOUNT);
-		Serial.print(buf[0]);
-#ifdef DEBUGBYTES
-		for (int i = 0; i < BYTESCOUNT; i++)
-		{
-			Serial.print(buf[i], HEX); Serial.print(" ");
-		}
-		Serial.print("\r\n");
-#endif	
-
-		if (checkValueCon(buf, BYTESCOUNT))
-		{
-			readflag = 1;
-		}
-
-
-}
-	return readflag;
-}
 
 int WinsenZH03::checkValueCon(unsigned char *thebuf, char leng)
 {
@@ -224,7 +201,7 @@ int WinsenZH03::checkValueMan(unsigned char *thebuf)
 	}
 #ifdef DEBUGOTHERS
 	Serial.print((byte)(~receiveSum + 1), HEX);
-	Serial.print("<->");
+	Serial.print(F("<->"));
 	Serial.println(thebuf[8], HEX);
 #endif
 	if (((byte)(~receiveSum + 1)) == thebuf[8])  //check the serial data 
@@ -262,3 +239,37 @@ float WinsenZH03::readPM10()
 	return this->PM10;
 }
 
+
+int WinsenZH03::sleep(){
+	
+		byte setSleep[] = { 0xFF, 0x01, 0xA7, 0x01, 0x00, 0x00, 0x00, 0x00, 0x57};//duerme
+		byte response[9] = { 0xFF, 0xA7, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x58 };
+		_s->write(setSleep, sizeof(setSleep));
+		delay(1500);
+		while (_s->available() > 0) {
+			byte c = _s->read();//Clear 
+			//Serial.print(c);
+		}
+				if (c==response){
+			
+			return 1;
+		}
+	}
+	
+int WinsenZH03::wake(){
+	
+		byte setWake[] = { 0xFF, 0x01, 0xA7, 0x00, 0x00, 0x00, 0x00, 0x00, 0x58};//despierta
+		byte response[9] = { 0xFF, 0xA7, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x58 };
+		_s->write(setWake, sizeof(setWake));
+			delay(1500);
+		while (_s->available() > 0) {
+			byte c = _s->read();//Clear 
+			//Serial.print(c);
+		}
+		if (c==response){
+			
+			return 1;
+		}
+	}
+	
+	
