@@ -7,7 +7,7 @@
 * Tomas Leiva
 * Nov 10,2017
 * https://github.com/eshizero/WinsenZH03
-* V0.4
+* V0.5
 *
 * MIT License
 *
@@ -258,10 +258,11 @@ int WinsenZH03::wake()
 	
 int WinsenZH03::slewarespo()
 {
+	byte c;
 			byte response[9] = { 0xFF, 0xA7, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x58 };	
 				delay(1500);
 				while (_s->available() > 0) {
-			byte c = _s->read();//Clear 
+			c = _s->read();//Clear 
 		}
 				if (c==response){
 			

@@ -7,7 +7,7 @@
 * Tomas Leiva
 * Nov 10,2017
 * https://github.com/eshizero/WinsenZH03
-* V0.4
+* V0.5
 *
 * MIT License
 *
